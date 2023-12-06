@@ -8,11 +8,6 @@ const HEIGHT_combat = FHEIGHT_combat - (MARGIN_combat.TOP + MARGIN_combat.BOTTOM
 
 let combat_xScale = null;
 let combat_yScale = null;
-const combat_colorScale = d3
-	.scaleOrdinal()
-	.domain(["fire", "wind", "ice", "lightning", "quantum", "physical", "imaginary"])
-	.range(["#f85037", "#00b596", "#44bef0", "#df55ff", "#615bbe", "#7c787c", "#f2d35a"]);
-const combat_sel_color = "red";
 
 function init_combat_type(data) {
 	const svg = d3
@@ -67,17 +62,18 @@ function init_combat_type(data) {
 		.range([HEIGHT_combat, 0]);
 
 	// Create bars
-	g.append("g")
+	const rects_frame = g
+		.append("g")
 		.selectAll("rect")
 		.data(combat_Data)
 		.enter()
 		.append("rect")
 		.attr("x", (d) => combat_xScale(d.combat_type))
-		.attr("y", (d) => combat_yScale(d.count))
+		.attr("y", HEIGHT_combat)
 		.attr("width", combat_xScale.bandwidth())
-		.attr("height", (d) => HEIGHT_combat - combat_yScale(d.count))
-		.attr("fill", "white")
-		.attr("stroke", "black")
+		.attr("height", 0)
+		.attr("fill", "black")
+		.attr("stroke", text_color)
 		.attr("stroke-width", "2px")
 		.on("click", (d) => {
 			if (combat_Filter === d.combat_type) {
@@ -87,6 +83,12 @@ function init_combat_type(data) {
 			}
 			updateAllViews();
 		});
+
+	rects_frame
+		.transition()
+		.duration(1000)
+		.attr("y", (d) => combat_yScale(d.count))
+		.attr("height", (d) => HEIGHT_combat - combat_yScale(d.count));
 
 	const rectsG = g
 		.append("g")
@@ -128,6 +130,7 @@ function init_combat_type(data) {
 		.attr("y", -30)
 		.attr("text-anchor", "middle")
 		.attr("font-size", "30px")
+		.style("fill", text_color)
 		.text("Combat Type");
 
 	// X label
@@ -145,6 +148,7 @@ function init_combat_type(data) {
 		.attr("font-size", "20px")
 		.attr("text-anchor", "middle")
 		.attr("transform", "rotate(-90)")
+		.style("fill", text_color)
 		.text("Count");
 }
 

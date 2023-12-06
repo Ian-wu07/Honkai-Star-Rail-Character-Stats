@@ -8,8 +8,6 @@ const HEIGHT_path = FHEIGHT_path - (MARGIN_path.TOP + MARGIN_path.BOTTOM);
 
 let path_xScale = null;
 let path_yScale = null;
-const path_color = "#69b3a2";
-const path_sel_color = "red";
 
 function init_path(data) {
 	const svg = d3
@@ -60,17 +58,18 @@ function init_path(data) {
 		.range([HEIGHT_path, 0]);
 
 	// Create bars
-	g.append("g")
+	const rects_frame = g
+		.append("g")
 		.selectAll("rect")
 		.data(pathData)
 		.enter()
 		.append("rect")
 		.attr("x", (d) => path_xScale(d.path))
-		.attr("y", (d) => path_yScale(d.count))
+		.attr("y", HEIGHT_path)
 		.attr("width", path_xScale.bandwidth())
-		.attr("height", (d) => HEIGHT_path - path_yScale(d.count))
-		.attr("fill", "white")
-		.attr("stroke", "black")
+		.attr("height", 0)
+		.attr("fill", "black")
+        .attr("stroke", text_color)
 		.attr("stroke-width", "2px")
 		.on("click", (d) => {
 			if (path_Filter === d.path) {
@@ -80,6 +79,12 @@ function init_path(data) {
 			}
 			updateAllViews();
 		});
+
+	rects_frame
+		.transition()
+		.duration(1000)
+		.attr("y", (d) => path_yScale(d.count))
+		.attr("height", (d) => HEIGHT_path - path_yScale(d.count));
 
 	const rectsG = g
 		.append("g")
@@ -120,6 +125,7 @@ function init_path(data) {
 		.attr("y", -30)
 		.attr("text-anchor", "middle")
 		.attr("font-size", "30px")
+		.style("fill", text_color)
 		.text("Path");
 
 	// X label
@@ -137,6 +143,7 @@ function init_path(data) {
 		.attr("font-size", "20px")
 		.attr("text-anchor", "middle")
 		.attr("transform", "rotate(-90)")
+		.style("fill", text_color)
 		.text("Count");
 }
 
