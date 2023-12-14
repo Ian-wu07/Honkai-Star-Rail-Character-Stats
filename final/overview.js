@@ -125,6 +125,7 @@ function init_overview(data) {
         .style("fill", text_color)
 		.text("ATK");
 
+	
 	//BUTTON-----------------------------------------------------------------
 	init_button();
 }
@@ -222,6 +223,8 @@ function update_overview(updata) {
 		.style("font-size", "15px")
 		.style("opacity", 0.8);
 
+	var selectData = []
+	
 	scatter_chart
 		.select(".dot")
 		.selectAll("circle")
@@ -250,9 +253,125 @@ function update_overview(updata) {
 				.on("end", function () {
 					tooltip.style("visibility", "hidden");
 				})
-		);
-}
+		)
+		.on("click", function(d) {
+			var dotRadius = d3.select(this).attr("stroke-width");
+			if((dotRadius === null || dotRadius == 0) && selectData.length < 10){
+				d3.select(this).attr("stroke", "red");
+				d3.select(this).attr("stroke-width", 3);
+			}
+			else{
+				d3.select(this).attr("stroke-width", 0);
+			}
+			console.log(dotRadius);
+			let index = selectData.indexOf(d);
+			if (index !== -1) {
+				// 数据存在，删除它
+				selectData.splice(index, 1);
+			} 
+			else if(selectData.length < 10){
+				// 数据不存在，添加它
+				selectData.push(d);
+			}
+			d3.select('body').select('table').select("tbody").remove();
+			if(selectData.length > 0){
+				tabulate(selectData, ["character", "HP", "ATK", "DEF"])
+			}
+			
+		});
+	var tableWidth = 700;
+	var rowHeight = 40;
 
+	var table = d3.select('body')
+		.append('table')
+		.style("position", "absolute")
+		.style("top", FHEIGHT_SHIFT_overview + "px")
+		.style("left", FWIDTH_SHIFT_overview + FHEIGHT_overview + "px")
+		.style("font-size", "25px")
+		.style("border-spacing", "20px")
+		.style("width", tableWidth + "px")
+		.style("overflow-y", "auto")
+		.style("table-layout", "fixed");
+	
+	var thead = table.append('thead');
+	thead.append('tr')
+		.selectAll('th')
+		.data( ["character", "HP", "ATK", "DEF"]).enter()
+		.append('th')
+		.text(function (column) { return column; })
+		.on("click", function(d) {
+			var show = "";
+			if (d === "HP")
+				show = "hp_80";
+			else if (d === "ATK")
+				show = "atk_80";
+			else if (d === "DEF")
+				show = "def_80";
+			else
+				show = d;
+			sortTable(d);
+		});
+
+	function tabulate(data, columns) {
+		
+		var tbody = table.append('tbody');
+
+		// create a row for each object in the data
+		var rows = tbody.selectAll('tr')
+			.data(data)
+			.enter()
+			.append('tr');
+		
+		// create a cell in each row for each column
+		var cells = rows.selectAll('td')
+			.data(function (row) {
+			return columns.map(function (column) {
+				var show = "";
+				if (column === "HP")
+				show = "hp_80";
+				else if (column === "ATK")
+				show = "atk_80";
+				else if (column === "DEF")
+				show = "def_80";
+				else
+				show = column;
+				return {column: column, value: row[show]};
+			});
+			})
+			.enter()
+			.append('td')
+			.text(function (d) { return d.value; })
+			.style("text-align", "center");
+		
+		rows.style("height", rowHeight + "px");
+		
+		// 排序函数
+		return table;
+	}
+
+	function sortTable(column) {
+		var show = ""
+		if(column == "ATK")
+			show = "atk_80";
+		else if(column == "HP")
+			show = "hp_80";
+		else if(column == "DEF")
+			show = "def_80";
+		else
+			show = column;
+		selectData.sort(function(a, b) {
+		  if (show === 'character') {
+			return a[show].localeCompare(b[show]);
+		  } else {
+			return b[show] - a[show];
+		  }
+		});
+
+		d3.select('body').select('table').select("tbody").remove();
+		tabulate(selectData, ["character", "HP", "ATK", "DEF"]);
+	}
+
+}
 function init_button() {
 	const allGroup = ["ATK", "HP", "DEF"];
 
@@ -336,3 +455,4 @@ function init_button() {
 		.text((d) => d)
 		.attr("value", (d) => d);
 }
+
