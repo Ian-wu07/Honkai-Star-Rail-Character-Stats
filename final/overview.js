@@ -134,14 +134,23 @@ function update_overview(updata) {
 	const scatter_chart = d3.select("#chart-area3 svg g");
 	scatter_chart.select(".dot").selectAll("circle").attr("stroke-width", 0);
 
-	const x_feature = x_Option.toLowerCase() + "_80";
-	const y_feature = y_Option.toLowerCase() + "_80";
+	let x_feature = x_Option.toLowerCase() + "_80";
+	let y_feature = y_Option.toLowerCase() + "_80";
+    if(x_Option==='SPD') x_feature=x_Option.toLowerCase()
+    if(y_Option==='SPD') y_feature=y_Option.toLowerCase()
+
 	let x_axis_shift = axis_shift,
 		y_axis_shift = axis_shift;
-	if (x_Option !== "HP") {
+    if (x_Option === "SPD") {
+		x_axis_shift *= 0.03;
+	}
+	else if (x_Option !== "HP") {
 		x_axis_shift *= 0.4;
 	}
-	if (y_Option === "HP") {
+    if (y_Option === "SPD") {
+		y_axis_shift *= 0.03;
+	}
+	else if (y_Option !== "HP") {
 		y_axis_shift *= 0.4;
 	}
 
@@ -239,7 +248,8 @@ function update_overview(updata) {
 					`${d.character}<br>
 	        Hp : ${d.hp_80}<br>
 	        Atk : ${d.atk_80}<br>
-	        Def : ${d.def_80}`
+	        Def : ${d.def_80}<br>
+            Spd : ${d.spd}`
 				)
 				.style("visibility", "visible")
 				.style("top", d3.event.pageY + "px")
@@ -360,7 +370,7 @@ function update_overview(updata) {
 }
 
 function init_button() {
-	const allGroup = ["ATK", "HP", "DEF"];
+	const allGroup = ["ATK", "HP", "DEF", "SPD"];
 
 	const x_button_label = d3
 		.select("#chart-area3")

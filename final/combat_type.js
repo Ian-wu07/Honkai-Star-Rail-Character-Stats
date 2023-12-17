@@ -1,5 +1,5 @@
-const FWIDTH_combat = 700,
-	FHEIGHT_combat = 500;
+const FWIDTH_combat = 800,
+	FHEIGHT_combat = 600;
 const FWIDTH_SHIFT_combat = 20 + FWIDTH_path,
 	FHEIGHT_SHIFT_combat = FHEIGHT_title;
 const MARGIN_combat = { LEFT: 100, RIGHT: 50, TOP: 80, BOTTOM: 100 };
@@ -112,22 +112,22 @@ function init_combat_type(data) {
 		updateAllViews();
 	});
 
-	const Combatimages = g.selectAll('.cmb-image')
-	.data(combat_Data)
-	.enter()
-	.append('image')
-	.attr('class', 'cmb-image')
-	.attr('xlink:href', (d) => getImageCombat(d.combat_type)) 
-	.attr('x', (d) => combat_xScale(d.combat_type)) 
-	.attr('y', HEIGHT_combat) 
-	.attr('width',combat_xScale.bandwidth()) 
-	.attr('height', combat_xScale.bandwidth()); 
-
+	const Combatimages = g
+		.selectAll(".cmb-image")
+		.data(combat_Data)
+		.enter()
+		.append("image")
+		.attr("class", "cmb-image")
+		.attr("xlink:href", (d) => getImageCombat(d.combat_type))
+		.attr("x", (d) => combat_xScale(d.combat_type))
+		.attr("y", HEIGHT_combat)
+		.attr("width", combat_xScale.bandwidth())
+		.attr("height", combat_xScale.bandwidth());
 
 	Combatimages.transition()
-	.duration(1000)
-	.attr('y', (d) => combat_yScale(d.count) - 20) 
-	.attr('height',  combat_xScale.bandwidth());
+		.duration(1000)
+		.attr("y", (d) => combat_yScale(d.count) - 20)
+		.attr("height", combat_xScale.bandwidth());
 
 	update_combat(data);
 
@@ -208,29 +208,31 @@ function update_combat(updata) {
 	Combatimages.data(combat_Data)
 		.transition()
 		.duration(1000)
-		.attr('class', 'cmb-image')
-		.attr('xlink:href', (d) => getImageCombat(d.combat_type)) 
-		.attr('x', (d) => combat_xScale(d.combat_type)+5) 
-		.attr('y', (d) => (d.count === 0 ?  combat_yScale(d.count) + 25 : combat_yScale(d.count)-41)) 
-		.attr('width',40) 
-		.attr('height', 40); 
+		.attr("class", "cmb-image")
+		.attr("xlink:href", (d) => getImageCombat(d.combat_type))
+		.attr("x", (d) => combat_xScale(d.combat_type) + combat_xScale.bandwidth() / 2 - 20)
+		.attr("y", (d) =>
+			d.count === 0 ? combat_yScale(d.count) + 25 : combat_yScale(d.count) - 41
+		)
+		.attr("width", 40)
+		.attr("height", 40);
 }
 
 function getImageCombat(type) {
 	switch (type) {
-	  case 'ice':
-		return 'Cmb/Ice.png'; 
-	  case 'wind':
-		return 'Cmb/Wind.png'; 
-	  case 'fire':
-		return 'Cmb/Fire.png'; 
-	  case 'imaginary':
-		return 'Cmb/Imaginary.png'; 
-	  case 'lightning':
-		return 'Cmb/Lightning.png';  
-	  case 'quantum':
-		return 'Cmb/Quantum.png'; 
-	  case 'physical':
-		return 'Cmb/Physical.png'; 
+		case "ice":
+			return "Cmb/Ice.png";
+		case "wind":
+			return "Cmb/Wind.png";
+		case "fire":
+			return "Cmb/Fire.png";
+		case "imaginary":
+			return "Cmb/Imaginary.png";
+		case "lightning":
+			return "Cmb/Lightning.png";
+		case "quantum":
+			return "Cmb/Quantum.png";
+		case "physical":
+			return "Cmb/Physical.png";
 	}
-  }
+}

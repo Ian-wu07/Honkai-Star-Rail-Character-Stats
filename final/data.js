@@ -2,7 +2,7 @@ let path_Filter = null;
 let combat_Filter = null;
 let allData = null;
 
-d3.csv("hsr_character-data(1.3).csv").then((data) => {
+d3.csv("hsr_character-data(1.6).csv").then((data) => {
 	data.forEach(function (d) {
 		const { atk_80, hp_80, def_80, spd, max_energy} = d;
 		d.atk_80 = Number(atk_80);

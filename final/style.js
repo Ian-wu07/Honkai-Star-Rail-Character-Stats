@@ -17,7 +17,7 @@ const axis_shift = 50;
 document.body.style.backgroundColor = background_color;
 document.documentElement.style.setProperty('--text-color', text_color);
 
-const FWIDTH_title = 1400,
+const FWIDTH_title = 1600,
     FHEIGHT_title = 100;
 
 const svgTitle = d3.select("#title")
