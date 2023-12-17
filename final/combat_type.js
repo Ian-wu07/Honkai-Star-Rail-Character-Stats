@@ -112,6 +112,23 @@ function init_combat_type(data) {
 		updateAllViews();
 	});
 
+	const Combatimages = g.selectAll('.cmb-image')
+	.data(combat_Data)
+	.enter()
+	.append('image')
+	.attr('class', 'cmb-image')
+	.attr('xlink:href', (d) => getImageCombat(d.combat_type)) 
+	.attr('x', (d) => combat_xScale(d.combat_type)) 
+	.attr('y', HEIGHT_combat) 
+	.attr('width',combat_xScale.bandwidth()) 
+	.attr('height', combat_xScale.bandwidth()); 
+
+
+	Combatimages.transition()
+	.duration(1000)
+	.attr('y', (d) => combat_yScale(d.count) - 20) 
+	.attr('height',  combat_xScale.bandwidth());
+
 	update_combat(data);
 
 	// Add x-axis
@@ -127,7 +144,7 @@ function init_combat_type(data) {
 
 	g.append("text")
 		.attr("x", WIDTH_combat / 2)
-		.attr("y", -30)
+		.attr("y", -50)
 		.attr("text-anchor", "middle")
 		.attr("font-size", "30px")
 		.style("fill", text_color)
@@ -162,7 +179,6 @@ function update_combat(updata) {
 		imaginary: 0,
 		lightning: 0,
 		quantum: 0,
-		lightning: 0,
 		physical: 0,
 	};
 
@@ -187,4 +203,34 @@ function update_combat(updata) {
 		.attr("fill", (d) => combat_colorScale(d.combat_type))
 		.attr("stroke", (d) => (combat_Filter === null ? "none" : combat_sel_color))
 		.attr("stroke-width", "3px");
+
+	const Combatimages = d3.select("#chart-area2 svg g ").selectAll(".cmb-image");
+	Combatimages.data(combat_Data)
+		.transition()
+		.duration(1000)
+		.attr('class', 'cmb-image')
+		.attr('xlink:href', (d) => getImageCombat(d.combat_type)) 
+		.attr('x', (d) => combat_xScale(d.combat_type)+5) 
+		.attr('y', (d) => (d.count === 0 ?  combat_yScale(d.count) + 25 : combat_yScale(d.count)-41)) 
+		.attr('width',40) 
+		.attr('height', 40); 
 }
+
+function getImageCombat(type) {
+	switch (type) {
+	  case 'ice':
+		return 'Cmb/Ice.png'; 
+	  case 'wind':
+		return 'Cmb/Wind.png'; 
+	  case 'fire':
+		return 'Cmb/Fire.png'; 
+	  case 'imaginary':
+		return 'Cmb/Imaginary.png'; 
+	  case 'lightning':
+		return 'Cmb/Lightning.png';  
+	  case 'quantum':
+		return 'Cmb/Quantum.png'; 
+	  case 'physical':
+		return 'Cmb/Physical.png'; 
+	}
+  }

@@ -108,6 +108,25 @@ function init_path(data) {
 		updateAllViews();
 	});
 
+
+	const Pathimages = g.selectAll('.bar-image')
+	.data(pathData)
+	.enter()
+	.append('image')
+	.attr('class', 'bar-image')
+	.attr('xlink:href', (d) => getImagePath(d.path)) 
+	.attr('x', (d) => path_xScale(d.path)) 
+	.attr('y', HEIGHT_path) 
+	.attr('width',path_xScale.bandwidth()) 
+	.attr('height', path_xScale.bandwidth()); 
+
+
+	Pathimages.transition()
+	.duration(1000)
+	.attr('y', (d) => path_yScale(d.count) - 20) 
+	.attr('height',  path_xScale.bandwidth()); 
+
+
 	update_path(data);
 	// Add x-axis
 	g.append("g")
@@ -177,4 +196,44 @@ function update_path(updata) {
 		.attr("fill", path_color)
 		.attr("stroke", (d) => (path_Filter === null ? "none" : path_sel_color))
 		.attr("stroke-width", "3px");
+		
+	const Pathimages = d3.select("#chart-area1 svg g ").selectAll(".bar-image");
+	Pathimages.data(pathData)
+		.transition()
+		.duration(1000)
+		.attr('class', 'bar-image')
+		.attr('xlink:href', (d) => getImagePath(d.path)) 
+		.attr('x', (d) => path_xScale(d.path)+5) 
+		.attr('y', (d) => (d.count === 0 ?  path_yScale(d.count) + 25 : path_yScale(d.count))) 
+		.attr('width',40) 
+		.attr('height', 40); 
+
+	// bar.enter()
+	// 	.append('image')
+	// 	.attr('class', 'bar-image')
+	// 	.attr('xlink:href', (d) => getImagePath(d.path)) 
+	// 	.attr('x', (d) => path_xScale(d.path)) // Adjust x-position as needed
+	// 	.attr('y', HEIGHT_path) // Adjust y-position as needed
+	// 	.attr('width',40) // Adjust width as needed
+	// 	.attr('height', 40); // Adjust height as needed
+	  
 }
+
+function getImagePath(path) {
+	switch (path) {
+	  case 'preservation':
+		return 'Pth/Preservation.png'; 
+	  case 'hunt':
+		return 'Pth/Hunt.png'; 
+	  case 'erudition':
+		return 'Pth/Erudition.png'; 
+	  case 'nihility':
+			return 'Pth/Nihility.png'; 
+	  case 'destruction':
+		return 'Pth/Destruction.png'; 
+	  case 'harmony':
+		return 'Pth/Harmony.png'; 
+	  case 'abundance':
+		return 'Pth/Abundance.png'; 
+	}
+  }
