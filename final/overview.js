@@ -8,6 +8,7 @@ const HEIGHT_overview = FHEIGHT_overview - (MARGIN_overview.TOP + MARGIN_overvie
 
 let x_Option = "HP";
 let y_Option = "ATK";
+var selectData = []
 
 function init_overview(data) {
 	const svg = d3
@@ -132,6 +133,9 @@ function init_overview(data) {
 
 function update_overview(updata) {
 	const scatter_chart = d3.select("#chart-area3 svg g");
+	scatter_chart.select(".dot")
+				 .selectAll("circle")
+				 .attr("stroke-width", 0);
 
 	const x_feature = x_Option.toLowerCase() + "_80";
 	const y_feature = y_Option.toLowerCase() + "_80";
@@ -223,7 +227,7 @@ function update_overview(updata) {
 		.style("font-size", "15px")
 		.style("opacity", 0.8);
 
-	var selectData = []
+	
 	
 	scatter_chart
 		.select(".dot")
@@ -255,23 +259,17 @@ function update_overview(updata) {
 				})
 		)
 		.on("click", function(d) {
-			var dotRadius = d3.select(this).attr("stroke-width");
-			if((dotRadius === null || dotRadius == 0) && selectData.length < 10){
-				d3.select(this).attr("stroke", "red");
-				d3.select(this).attr("stroke-width", 3);
-			}
-			else{
-				d3.select(this).attr("stroke-width", 0);
-			}
-			console.log(dotRadius);
 			let index = selectData.indexOf(d);
 			if (index !== -1) {
 				// 数据存在，删除它
 				selectData.splice(index, 1);
+				d3.select(this).attr("stroke-width", 0);
 			} 
 			else if(selectData.length < 10){
 				// 数据不存在，添加它
 				selectData.push(d);
+				d3.select(this).attr("stroke", "red");
+				d3.select(this).attr("stroke-width", 3);
 			}
 			d3.select('body').select('table').select("tbody").remove();
 			if(selectData.length > 0){
@@ -282,6 +280,7 @@ function update_overview(updata) {
 	var tableWidth = 700;
 	var rowHeight = 40;
 
+	d3.select('body').select("table").remove();
 	var table = d3.select('body')
 		.append('table')
 		.style("position", "absolute")
@@ -300,15 +299,6 @@ function update_overview(updata) {
 		.append('th')
 		.text(function (column) { return column; })
 		.on("click", function(d) {
-			var show = "";
-			if (d === "HP")
-				show = "hp_80";
-			else if (d === "ATK")
-				show = "atk_80";
-			else if (d === "DEF")
-				show = "def_80";
-			else
-				show = d;
 			sortTable(d);
 		});
 
@@ -371,7 +361,10 @@ function update_overview(updata) {
 		tabulate(selectData, ["character", "HP", "ATK", "DEF"]);
 	}
 
+	
+	
 }
+
 function init_button() {
 	const allGroup = ["ATK", "HP", "DEF"];
 
@@ -402,8 +395,8 @@ function init_button() {
 		.style("height", "50px")
 		.style("width", "100px")
 		.style("font-size", "25px")
-        .style("background-color", button_color)  // 设置按钮背景颜色
-        .style("color", text_color)  // 设置按钮文本颜色
+		.style("background-color", button_color)  // 设置按钮背景颜色
+		.style("color", text_color)  // 设置按钮文本颜色
 		.selectAll("myOptions")
 		.data(allGroup)
 		.enter()
@@ -411,6 +404,7 @@ function init_button() {
 		.text((d) => d)
 		.attr("value", (d) => d)
 		.property("selected", (d) => {
+			selectData = [];
 			return d === "HP";
 		});
 
@@ -439,6 +433,7 @@ function init_button() {
 
 		.on("change", function (d) {
 			y_Option = d3.select(this).property("value");
+			selectData = []
 			updateAllViews();
 		});
 
@@ -446,13 +441,14 @@ function init_button() {
 		.style("height", "50px")
 		.style("width", "100px")
 		.style("font-size", "25px")
-        .style("background-color", button_color)  // 设置按钮背景颜色
-        .style("color", text_color)  // 设置按钮文本颜色
+		.style("background-color", button_color)  // 设置按钮背景颜色
+		.style("color", text_color)  // 设置按钮文本颜色
 		.selectAll("myOptions")
 		.data(allGroup)
 		.enter()
 		.append("option")
 		.text((d) => d)
 		.attr("value", (d) => d);
-}
 
+	
+}

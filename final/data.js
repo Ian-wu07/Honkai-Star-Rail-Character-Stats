@@ -23,6 +23,7 @@ function updateAllViews() {
 			path_Pass && (combat_Filter === null || d.combat_type === combat_Filter);
 		return combat_Pass;
 	});
+	selectData = []
 	update_path(filteredData);
 	update_combat(filteredData);
 	update_overview(filteredData);
