@@ -8,7 +8,7 @@ const HEIGHT_overview = FHEIGHT_overview - (MARGIN_overview.TOP + MARGIN_overvie
 
 let x_Option = "HP";
 let y_Option = "ATK";
-var selectData = []
+var selectData = [];
 
 function init_overview(data) {
 	const svg = d3
@@ -36,7 +36,7 @@ function init_overview(data) {
 		.attr("class", "x_axis")
 		.attr("transform", `translate(0, ${HEIGHT_overview})`)
 		.call(d3.axisBottom(x))
-		.attr("font-size", "15px")
+		.attr("font-size", "15px");
 
 	const y = d3
 		.scaleLinear()
@@ -46,7 +46,7 @@ function init_overview(data) {
 		])
 		.range([HEIGHT_overview, 0]);
 
-	g.append("g").attr("class", "y_axis").call(d3.axisLeft(y)).attr("font-size", "15px")
+	g.append("g").attr("class", "y_axis").call(d3.axisLeft(y)).attr("font-size", "15px");
 
 	g.append("g")
 		.attr("class", "dot")
@@ -73,7 +73,7 @@ function init_overview(data) {
 		.append("g")
 		.attr("class", "legend")
 		.attr("transform", `translate(${WIDTH_overview + 10}, 0)`)
-        .style("fill", text_color)
+		.style("fill", text_color);
 
 	legend.append("text").style("font-size", "20px").text("rarity");
 
@@ -104,7 +104,7 @@ function init_overview(data) {
 		.attr("y", -30)
 		.attr("text-anchor", "middle")
 		.style("font-size", "30px")
-        .style("fill", text_color)
+		.style("fill", text_color)
 		.text("HP-ATK");
 	// X label
 	g.append("text")
@@ -113,7 +113,7 @@ function init_overview(data) {
 		.attr("y", HEIGHT_overview + 60)
 		.attr("font-size", "25px")
 		.attr("text-anchor", "middle")
-        .style("fill", text_color)
+		.style("fill", text_color)
 		.text("HP");
 	// Y label
 	g.append("text")
@@ -123,30 +123,28 @@ function init_overview(data) {
 		.attr("font-size", "25px")
 		.attr("text-anchor", "middle")
 		.attr("transform", "rotate(-90)")
-        .style("fill", text_color)
+		.style("fill", text_color)
 		.text("ATK");
 
-	
 	//BUTTON-----------------------------------------------------------------
 	init_button();
 }
 
 function update_overview(updata) {
 	const scatter_chart = d3.select("#chart-area3 svg g");
-	scatter_chart.select(".dot")
-				 .selectAll("circle")
-				 .attr("stroke-width", 0);
+	scatter_chart.select(".dot").selectAll("circle").attr("stroke-width", 0);
 
 	const x_feature = x_Option.toLowerCase() + "_80";
 	const y_feature = y_Option.toLowerCase() + "_80";
-    let x_axis_shift=axis_shift, y_axis_shift=axis_shift;
-    if(x_Option!=='HP'){
-        x_axis_shift*=0.4
-    }
-    if(y_Option==='HP'){
-        y_axis_shift*=0.4
-    }
-    
+	let x_axis_shift = axis_shift,
+		y_axis_shift = axis_shift;
+	if (x_Option !== "HP") {
+		x_axis_shift *= 0.4;
+	}
+	if (y_Option === "HP") {
+		y_axis_shift *= 0.4;
+	}
+
 	const x = d3
 		.scaleLinear()
 		.domain([
@@ -162,22 +160,25 @@ function update_overview(updata) {
 		.text(x_Option + "-" + y_Option);
 
 	scatter_chart.select(".x_axis").transition().duration(1000).call(d3.axisBottom(x));
-	scatter_chart.select(".x_axis_label").transition().duration(500) // 这是文字消失的过渡时间
-    .style("opacity", 0)
-    .on("end", function () {
-        // 在过渡结束后更改文字
-        d3.select(this)
-            .text(x_Option)
-            .transition()
-            .duration(500) // 这是文字出现的过渡时间
-            .style("opacity", 1);
-    });
+	scatter_chart
+		.select(".x_axis_label")
+		.transition()
+		.duration(500) // 这是文字消失的过渡时间
+		.style("opacity", 0)
+		.on("end", function () {
+			// 在过渡结束后更改文字
+			d3.select(this)
+				.text(x_Option)
+				.transition()
+				.duration(500) // 这是文字出现的过渡时间
+				.style("opacity", 1);
+		});
 
 	const y = d3
 		.scaleLinear()
 		.domain([
-			d3.min(updata, (d) => d[y_feature] - y_axis_shift ),
-			d3.max(updata, (d) => d[y_feature] + y_axis_shift ),
+			d3.min(updata, (d) => d[y_feature] - y_axis_shift),
+			d3.max(updata, (d) => d[y_feature] + y_axis_shift),
 		])
 		.range([HEIGHT_overview, 0]);
 
@@ -227,8 +228,6 @@ function update_overview(updata) {
 		.style("font-size", "15px")
 		.style("opacity", 0.8);
 
-	
-	
 	scatter_chart
 		.select(".dot")
 		.selectAll("circle")
@@ -258,31 +257,30 @@ function update_overview(updata) {
 					tooltip.style("visibility", "hidden");
 				})
 		)
-		.on("click", function(d) {
+		.on("click", function (d) {
 			let index = selectData.indexOf(d);
 			if (index !== -1) {
 				// 数据存在，删除它
 				selectData.splice(index, 1);
 				d3.select(this).attr("stroke-width", 0);
-			} 
-			else if(selectData.length < 10){
+			} else if (selectData.length < 10) {
 				// 数据不存在，添加它
 				selectData.push(d);
 				d3.select(this).attr("stroke", "red");
 				d3.select(this).attr("stroke-width", 3);
 			}
-			d3.select('body').select('table').select("tbody").remove();
-			if(selectData.length > 0){
-				tabulate(selectData, ["character", "HP", "ATK", "DEF"])
+			d3.select("body").select("table").select("tbody").remove();
+			if (selectData.length > 0) {
+				tabulate(selectData, ["character", "HP", "ATK", "DEF", "SPD", "ENERGY"]);
 			}
-			
 		});
-	var tableWidth = 700;
+	var tableWidth = 800;
 	var rowHeight = 40;
 
-	d3.select('body').select("table").remove();
-	var table = d3.select('body')
-		.append('table')
+	d3.select("body").select("table").remove();
+	var table = d3
+		.select("body")
+		.append("table")
 		.style("position", "absolute")
 		.style("top", FHEIGHT_SHIFT_overview + "px")
 		.style("left", FWIDTH_SHIFT_overview + FHEIGHT_overview + "px")
@@ -291,78 +289,74 @@ function update_overview(updata) {
 		.style("width", tableWidth + "px")
 		.style("overflow-y", "auto")
 		.style("table-layout", "fixed");
-	
-	var thead = table.append('thead');
-	thead.append('tr')
-		.selectAll('th')
-		.data( ["character", "HP", "ATK", "DEF"]).enter()
-		.append('th')
-		.text(function (column) { return column; })
-		.on("click", function(d) {
+
+	var thead = table.append("thead");
+	thead
+		.append("tr")
+		.selectAll("th")
+		.data(["character", "HP", "ATK", "DEF", "SPD", "ENERGY"])
+		.enter()
+		.append("th")
+		.text(function (column) {
+			return column;
+		})
+		.on("click", function (d) {
 			sortTable(d);
 		});
 
 	function tabulate(data, columns) {
-		
-		var tbody = table.append('tbody');
+		var tbody = table.append("tbody");
 
 		// create a row for each object in the data
-		var rows = tbody.selectAll('tr')
-			.data(data)
-			.enter()
-			.append('tr');
-		
+		var rows = tbody.selectAll("tr").data(data).enter().append("tr");
+
 		// create a cell in each row for each column
-		var cells = rows.selectAll('td')
+		var cells = rows
+			.selectAll("td")
 			.data(function (row) {
-			return columns.map(function (column) {
-				var show = "";
-				if (column === "HP")
-				show = "hp_80";
-				else if (column === "ATK")
-				show = "atk_80";
-				else if (column === "DEF")
-				show = "def_80";
-				else
-				show = column;
-				return {column: column, value: row[show]};
-			});
+				return columns.map(function (column) {
+					var show = "";
+					if (column === "HP") show = "hp_80";
+					else if (column === "ATK") show = "atk_80";
+					else if (column === "DEF") show = "def_80";
+					else if (column === "SPD") show = "spd";
+					else if (column === "ENERGY") show = "max_energy";
+					else show = column;
+					return { column: column, value: row[show] };
+				});
 			})
 			.enter()
-			.append('td')
-			.text(function (d) { return d.value; })
+			.append("td")
+			.text(function (d) {
+				return d.value;
+			})
 			.style("text-align", "center");
-		
+
 		rows.style("height", rowHeight + "px");
-		
+
 		// 排序函数
 		return table;
 	}
 
 	function sortTable(column) {
-		var show = ""
-		if(column == "ATK")
-			show = "atk_80";
-		else if(column == "HP")
-			show = "hp_80";
-		else if(column == "DEF")
-			show = "def_80";
-		else
-			show = column;
-		selectData.sort(function(a, b) {
-		  if (show === 'character') {
-			return a[show].localeCompare(b[show]);
-		  } else {
-			return b[show] - a[show];
-		  }
+		var show = "";
+		if (column == "ATK") show = "atk_80";
+		else if (column == "HP") show = "hp_80";
+		else if (column == "DEF") show = "def_80";
+		else if (column === "SPD") show = "spd";
+		else if (column === "ENERGY") show = "max_energy";
+		else show = column;
+		selectData.sort(function (a, b) {
+			if (show === "character") {
+				return a[show].localeCompare(b[show]);
+			} else {
+				return b[show] - a[show];
+			}
 		});
 
-		d3.select('body').select('table').select("tbody").remove();
-		tabulate(selectData, ["character", "HP", "ATK", "DEF"]);
+		d3.select("body").select("table").select("tbody").remove();
+		tabulate(selectData, ["character", "HP", "ATK", "DEF", "SPD", "ENERGY"]);
 	}
-
-	
-	
 }
 
 function init_button() {
@@ -395,8 +389,8 @@ function init_button() {
 		.style("height", "50px")
 		.style("width", "100px")
 		.style("font-size", "25px")
-		.style("background-color", button_color)  // 设置按钮背景颜色
-		.style("color", text_color)  // 设置按钮文本颜色
+		.style("background-color", button_color) // 设置按钮背景颜色
+		.style("color", text_color) // 设置按钮文本颜色
 		.selectAll("myOptions")
 		.data(allGroup)
 		.enter()
@@ -433,7 +427,7 @@ function init_button() {
 
 		.on("change", function (d) {
 			y_Option = d3.select(this).property("value");
-			selectData = []
+			selectData = [];
 			updateAllViews();
 		});
 
@@ -441,14 +435,12 @@ function init_button() {
 		.style("height", "50px")
 		.style("width", "100px")
 		.style("font-size", "25px")
-		.style("background-color", button_color)  // 设置按钮背景颜色
-		.style("color", text_color)  // 设置按钮文本颜色
+		.style("background-color", button_color) // 设置按钮背景颜色
+		.style("color", text_color) // 设置按钮文本颜色
 		.selectAll("myOptions")
 		.data(allGroup)
 		.enter()
 		.append("option")
 		.text((d) => d)
 		.attr("value", (d) => d);
-
-	
 }

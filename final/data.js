@@ -4,12 +4,15 @@ let allData = null;
 
 d3.csv("hsr_character-data(1.3).csv").then((data) => {
 	data.forEach(function (d) {
-		const { atk_80, hp_80, def_80 } = d;
+		const { atk_80, hp_80, def_80, spd, max_energy} = d;
 		d.atk_80 = Number(atk_80);
 		d.hp_80 = Number(hp_80);
 		d.def_80 = Number(def_80);
+        d.spd = Number(spd);
+        d.max_energy = Number(max_energy);
 	});
 	allData = data;
+    // console.log(allData)
 	init_path(allData);
 	setTimeout(() => init_combat_type(allData), 500);
 	setTimeout(() => init_overview(allData), 1000);

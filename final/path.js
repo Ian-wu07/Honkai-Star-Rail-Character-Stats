@@ -141,7 +141,7 @@ function init_path(data) {
 
 	g.append("text")
 		.attr("x", WIDTH_path / 2)
-		.attr("y", -30)
+		.attr("y", -50)
 		.attr("text-anchor", "middle")
 		.attr("font-size", "30px")
 		.style("fill", text_color)
