@@ -1,0 +1,3 @@
+1. Use VSCode to open our project
+2. Use Live Server to run "index.html"
+3. It will show a web page and you can take some interaction to see the data
