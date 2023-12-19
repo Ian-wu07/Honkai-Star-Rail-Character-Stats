@@ -2,7 +2,7 @@ const FWIDTH_CHD = 1500,
 	  FHEIGHT_CHD = 800;
 const FWIDTH_SHIFT_CHD = 0,
 	  FHEIGHT_SHIFT_CHD = 20  + FHEIGHT_overview + FHEIGHT_SHIFT_overview;
-const MARGIN_CHD = { LEFT: 100, RIGHT: 100, TOP: 150, BOTTOM: 100 };
+const MARGIN_CHD = { LEFT: 100, RIGHT: 100, TOP: 50, BOTTOM: 100 };
 const WIDTH_CHD = FWIDTH_CHD - (MARGIN_CHD.LEFT + MARGIN_CHD.RIGHT);
 const HEIGHT_CHD = FHEIGHT_CHD - (MARGIN_CHD.TOP + MARGIN_CHD.BOTTOM);
 
@@ -113,7 +113,7 @@ function update_CHD(charactername) {
 	let ultpath = path +  "3.png";
 	let talentpath = path +  "4.png";
 	let tecpath = path +  "5.png";
-	skilltext = [getskilltext(charactername,1),getskilltext(charactername,2),getskilltext(charactername,3),getskilltext(charactername,4),getskilltext(charactername,5)]
+	let skilltext = [getskilltext(charactername,1),getskilltext(charactername,2),getskilltext(charactername,3),getskilltext(charactername,4),getskilltext(charactername,5)]
 
 	const C_name = g.selectAll('.character-name')
 	.transition()
