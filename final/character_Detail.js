@@ -124,11 +124,11 @@ function update_CHD(charactername) {
 	.style("fill", text_color)
 	.text(charactername);
 	
-
 	const C_images = g.selectAll('.character-image')
-	.transition()
+	.attr('xlink:href',imgpath);
+	
+	C_images.transition()
 	.duration(1000)
-	.attr('xlink:href',imgpath) 
 	.attr('x', 0) 
 	.attr('y', 0) 
 	.attr('width',300) 
@@ -143,8 +143,6 @@ function update_CHD(charactername) {
 	.style("fill", '#0a0e74');
 
 	const characterbasic = g.selectAll('.character-basic')
-	.transition()
-	.duration(1000)
 	.attr('xlink:href',(d)=>{
 		if(d==1)return basicpath;
 		if(d==2)return skillpath;
@@ -152,10 +150,13 @@ function update_CHD(charactername) {
 		if(d==4)return talentpath;
 		if(d==5)return tecpath;
 	}) 
+	 
+	characterbasic.transition()
+	.duration(1000)
 	.attr('x', Skshift) 
 	.attr('y', (i) => i*100) 
 	.attr('width',50) 
-	.attr('height',50); 
+	.attr('height',50);
 
 	const C_Sktext = g.selectAll('.character-skilltext')
 	.transition()
