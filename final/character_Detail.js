@@ -104,7 +104,6 @@ function init_CHD() {
 }
 
 function update_CHD(charactername) {
-	console.log(charactername);
 	const  g = d3.select("#chart-area4 svg g");
 
 	let path = "Character/" + charactername + "/";

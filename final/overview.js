@@ -283,6 +283,8 @@ function update_overview(updata) {
 			if (selectData.length > 0) {
 				tabulate(selectData, ["character", "HP", "ATK", "DEF", "SPD", "ENERGY"]);
 			}
+			console.log(d);
+			update_CHD(d.character);
 		});
 	var tableWidth = 800;
 	var rowHeight = 40;
@@ -342,7 +344,6 @@ function update_overview(updata) {
 			})
 			.style("text-align", "center")
 			.on("click", function (d) {
-				console.log(d)
 				if(d.column == 'character'){
 					update_CHD(d.value);
 				}
