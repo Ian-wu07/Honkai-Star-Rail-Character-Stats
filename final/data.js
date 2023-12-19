@@ -16,6 +16,7 @@ d3.csv("hsr_character-data(1.3).csv").then((data) => {
 	init_path(allData);
 	setTimeout(() => init_combat_type(allData), 500);
 	setTimeout(() => init_overview(allData), 1000);
+	setTimeout(() => init_CHD(), 1500);
 	// setTimeout(() => init_map(allData), 2500)
 });
 

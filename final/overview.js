@@ -340,7 +340,13 @@ function update_overview(updata) {
 			.text(function (d) {
 				return d.value;
 			})
-			.style("text-align", "center");
+			.style("text-align", "center")
+			.on("click", function (d) {
+				console.log(d)
+				if(d.column == 'character'){
+					update_CHD(d.value);
+				}
+			});
 
 		rows.style("height", rowHeight + "px");
 
