@@ -287,19 +287,20 @@ function getskilltext(charactername,i){
 			if(i==4)return "[Leading the Way] : After using her Basic ATK, Bronya's next action will be Advanced Forward by 15%.";
 			if(i==5)return "[Banner of Command] :  At the start of the next battle, all allies' ATK increases by 15% for 2 turn(s).";
 
-		case 'seele':
-			if(i==1)return "[Windrider Bullet] : Deals Wind DMG equal to 50% of Bronya's ATK to a single enemy.";
-			if(i==2)return "[Combat Redeployment] : Dispels a debuff from a single ally, allows them to immediately take action.";
-			if(i==3)return "[The Belobog March] : Increases the ATK and CRIT DMG of all allies for 2 turn(s).";
-			if(i==4)return "[Leading the Way] : After using her Basic ATK, Bronya's next action will be Advanced Forward by 15%.";
-			if(i==5)return "[Banner of Command] :  At the start of the next battle, all allies' ATK increases by 15% for 2 turn(s).";
 
-		case 'serval':
+		case 'seele':
 			if(i==1)return "[Thwack] : Deals Quantum DMG equal to 50% of Seele's ATK to a single enemy.";
 			if(i==2)return "[Sheathed Blade] : Increases SPD by 25% for 2 turn(s) and deals Quantum DMG to a single enemy.";
 			if(i==3)return "[Butterfly Flurry] : Seele enters the buffed state and deals Quantum DMG equal to 255% of her ATK to a single enemy.";
 			if(i==4)return "[Resurgence] : Defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. ";
 			if(i==5)return "[Phantom Illusion] :  Seele gains Stealth for 20 second(s) and cannot be detected by enemies.";
+
+		case 'serval':
+			if(i==1)return "[Roaring Thunderclap] : Deals Lightning DMG equal to 50% of Serval's ATK to a single enemy.";
+			if(i==2)return "[Lightning Flash] : Deals Lightning DMG equal to 70% of Serval's ATK to a single enemy and 30% to adjacent enemies.";
+			if(i==3)return "[Here Comes the Mechanical Fever] : Deals Lightning DMG equal to 108% of Serval's ATK to all enemies.";
+			if(i==4)return "[Galvanic Chords] : After Serval attacks, deals additional Lightning DMG equal to 36% of Serval's ATK to all Shocked enemies.";
+			if(i==5)return "[Good Night, Belobo] :  Deals Lightning DMG equal to 50% of Serval's ATK to a random enemy.";
 
 		case 'gepard':
 			if(i==1)return "[Thwack] : Deals Ice DMG equal to 50% of Gepard's ATK to a single enemy.";
@@ -356,6 +357,20 @@ function getskilltext(charactername,i){
 			if(i==3)return "[A Quartet? Woo-hoo!] : Deals Quantum DMG to all enemies, and obtain 4 jade tiles of the same suit.";
 			if(i==4)return "[Celestial Jade] : If starts with 4 tiles of the same suit,consumes all tiles to enter the 'Hidden Hand' state.";
 			if(i==5)return "[Game Solitaire] : After using Technique, Qingque draws 2 jade tile(s) when the battle starts.";
+
+		case 'tingyun':
+			if(i==1)return "[Dislodged] : Deals Lightning DMG equal to 50% of Tingyun's ATK to a single enemy.";
+			if(i==2)return "[Soothing Melody] :Benediction lasts for 3 turn(s) and is only effective on the most recent receiver of Tingyun's Skill.";
+			if(i==3)return "[Amidst the Rejoicing Clouds] : Regenerates 50 Energy for a single ally and increases the target's DMG by 20% for 2 turn(s).";
+			if(i==4)return "[Violet Sparknado] : If starts with 4 tiles of the same suit,consumes all tiles to enter the 'Hidden Hand' state.";
+			if(i==5)return "[Gentle Breeze] : After using Technique, Qingque draws 2 jade tile(s) when the battle starts.";
+
+		case 'luocha':
+			if(i==1)return "[Thorns of the Abyss] : Deals Imaginary DMG equal to 50% of Luocha's ATK to a single enemy.";
+			if(i==2)return "[Prayer of Abyss Flower] :  Luocha immediately restores the target ally's HP equal to 40% of Luocha's ATK plus 200.";
+			if(i==3)return "[Death Wish] : Removes 1 buff(s) from all enemies and deals Imaginary DMG.";
+			if(i==4)return "[Cycle of Life] : When Abyss Flower reaches 2 , consumes all stacks of Abyss Flower to deploy a Field against the enemy.";
+			if(i==5)return "[Mercy of a Fool] : After the Technique is used, the Talent will be immediately triggered at the start of the next battle.";
 
 		case 'jing_yuan':
 			if(i==1)return "[Glistening Light] : Deals Lightning DMG equal to 50% of Jing Yuan's ATK to a single enemy.";
